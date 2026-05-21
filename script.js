@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeaderHeight();
   initProgressBar();
   initBackToTop();
-  initCopyButtons();
-  initSearch();
+  initCopyButtons();       // [4][5] aria-labels únicos + feedback visual
+  initSearch();            // [3][7] aria-live + highlight de termos
   initNavActiveState();
   initNavScrollIndicator();
+  initThemeToggle();       // [11]
+  initSectionLegends();    // [6]
+  initKeyboardShortcuts(); // [9]
+  initSectionAnchors();    // [10]
 });
 
 // === HEADER HEIGHT ===
@@ -49,7 +53,7 @@ function initBackToTop() {
   });
 }
 
-// === COPY CODE ===
+// === [4][5] COPY CODE — aria-labels únicos + feedback visual ===
 function initCopyButtons() {
   const iconCopy = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <rect x="9" y="9" width="13" height="13" rx="2"/>
@@ -61,21 +65,26 @@ function initCopyButtons() {
   </svg>`;
 
   document.querySelectorAll('pre').forEach(pre => {
+    // [4] Deriva label contextual a partir da .tag mais próxima dentro do card
+    const card = pre.closest('.card');
+    const tagText = card?.querySelector('.tag')?.textContent?.trim() ?? '';
+    const label = tagText ? `Copiar código: ${tagText}` : 'Copiar código do bloco';
+
     const btn = document.createElement('button');
     btn.className = 'copy-btn';
-    btn.setAttribute('aria-label', 'Copiar código do bloco');
+    btn.setAttribute('aria-label', label);
     btn.innerHTML = iconCopy + '<span>Copiar</span>';
 
     btn.addEventListener('click', async () => {
       const code = pre.querySelector('code');
       if (!code) return;
 
-      // textContent strips all Prism <span> tags automatically
       const text = code.textContent;
 
       try {
         await navigator.clipboard.writeText(text);
         btn.classList.add('success');
+        btn.setAttribute('aria-label', label.replace('Copiar', 'Copiado'));
         btn.innerHTML = iconCheck + '<span>Copiado!</span>';
       } catch {
         btn.classList.add('error');
@@ -84,6 +93,7 @@ function initCopyButtons() {
 
       setTimeout(() => {
         btn.classList.remove('success', 'error');
+        btn.setAttribute('aria-label', label);
         btn.innerHTML = iconCopy + '<span>Copiar</span>';
       }, 2000);
     });
@@ -92,13 +102,17 @@ function initCopyButtons() {
   });
 }
 
-// === SEARCH ===
+// === [3][7] SEARCH — aria-live + highlight de termos ===
 function initSearch() {
   const input = document.getElementById('search-input');
   const clearBtn = document.querySelector('.search-clear');
   const noResults = document.getElementById('no-results');
+  const statusEl = document.getElementById('search-status'); // [3]
   const sections = document.querySelectorAll('main section');
   if (!input) return;
+
+  // [9] Atualiza placeholder com dica de atalho
+  input.setAttribute('placeholder', 'Buscar... (/ para focar)');
 
   let debounceTimer = null;
 
@@ -126,7 +140,7 @@ function initSearch() {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // Remove all <mark> elements without touching innerHTML (preserves event listeners)
+  // Remove todas as tags <mark> sem tocar em innerHTML (preserva event listeners)
   function removeAllMarks() {
     const marks = document.querySelectorAll('main mark');
     const parents = new Set();
@@ -134,11 +148,10 @@ function initSearch() {
       parents.add(mark.parentNode);
       mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
     });
-    // Merge adjacent text nodes left by the replacements
     parents.forEach(p => p.normalize());
   }
 
-  // Wrap text matches with <mark> using TreeWalker — never touches innerHTML
+  // [7] Envolve ocorrências com <mark> usando TreeWalker — nunca toca innerHTML
   function highlightTextNodes(element, regex) {
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
     const textNodes = [];
@@ -182,6 +195,8 @@ function initSearch() {
       sections.forEach(s => s.classList.remove('hidden'));
       document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
       if (noResults) noResults.classList.remove('visible');
+      // [3] Limpa anúncio
+      if (statusEl) statusEl.textContent = '';
       updateHeaderHeight();
       return;
     }
@@ -198,7 +213,6 @@ function initSearch() {
           card.classList.remove('hidden');
           sectionVisible++;
 
-          // Highlight inside logic text and tag (DOM manipulation is safe here)
           const logicEl = card.querySelector('.logic-text');
           const tagEl = card.querySelector('.tag');
           if (logicEl) highlightTextNodes(logicEl, new RegExp(escapeRegex(query), 'gi'));
@@ -217,6 +231,16 @@ function initSearch() {
     });
 
     if (noResults) noResults.classList.toggle('visible', totalVisible === 0);
+
+    // [3] Anuncia resultado para leitores de tela
+    if (statusEl) {
+      if (totalVisible === 0) {
+        statusEl.textContent = `Nenhum resultado encontrado para "${query}".`;
+      } else {
+        statusEl.textContent = `${totalVisible} resultado${totalVisible > 1 ? 's' : ''} encontrado${totalVisible > 1 ? 's' : ''} para "${query}".`;
+      }
+    }
+
     updateHeaderHeight();
   }
 }
@@ -234,13 +258,15 @@ function initNavActiveState() {
           navLinks.forEach(a => {
             a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
           });
+          // Scrolla o link ativo para visível na nav
+          const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+          if (activeLink) {
+            activeLink.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+          }
         }
       });
     },
-    {
-      rootMargin: '-10% 0px -80% 0px',
-      threshold: 0,
-    }
+    { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
   );
 
   sections.forEach(s => observer.observe(s));
@@ -260,4 +286,120 @@ function initNavScrollIndicator() {
   nav.addEventListener('scroll', checkScroll, { passive: true });
   window.addEventListener('resize', checkScroll);
   checkScroll();
+}
+
+// === [11] THEME TOGGLE ===
+function initThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+
+  const STORAGE_KEY = 'preferred-theme';
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    btn.setAttribute('aria-label', `Alternar para tema ${isDark ? 'claro' : 'escuro'}`);
+    btn.setAttribute('title', `Tema ${isDark ? 'claro' : 'escuro'}`);
+  }
+
+  // Tema já está no data-theme (definido pelo script inline no <head>)
+  // Apenas sincroniza o estado do botão
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyTheme(current);
+
+  btn.addEventListener('click', () => {
+    const now = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = now === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(STORAGE_KEY, next);
+    applyTheme(next);
+  });
+
+  // Responde a mudança na preferência do sistema (só se o usuário não escolheu manualmente)
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      applyTheme(e.matches ? 'light' : 'dark');
+    }
+  });
+}
+
+// === [6] LEGENDA COMPACTA POR SEÇÃO ===
+function initSectionLegends() {
+  document.querySelectorAll('main section').forEach(section => {
+    const h2 = section.querySelector('h2');
+    if (!h2) return;
+
+    const legend = document.createElement('div');
+    legend.className = 'section-legend';
+    legend.setAttribute('aria-hidden', 'true');
+    legend.innerHTML =
+      '<span class="sl-dot logic"></span><span>Lógica — conceito</span>' +
+      '<span class="sl-sep">·</span>' +
+      '<span class="sl-dot py"></span><span>Python — código</span>';
+
+    h2.insertAdjacentElement('afterend', legend);
+  });
+}
+
+// === [9] ATALHOS DE TECLADO ===
+function initKeyboardShortcuts() {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+
+  document.addEventListener('keydown', e => {
+    // "/" ou Ctrl+K focam o campo de busca
+    const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+    if (!isTyping && e.key === '/') {
+      e.preventDefault();
+      input.focus();
+      input.select();
+      return;
+    }
+    if (e.ctrlKey && e.key === 'k') {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
+  });
+}
+
+// === [10] ÂNCORAS CLICÁVEIS NOS TÍTULOS DE SEÇÃO ===
+function initSectionAnchors() {
+  const linkIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </svg>`;
+
+  document.querySelectorAll('section[id] h2').forEach(h2 => {
+    const sectionId = h2.closest('section').id;
+
+    const btn = document.createElement('button');
+    btn.className = 'anchor-btn';
+    btn.setAttribute('aria-label', 'Copiar link desta seção');
+    btn.innerHTML = linkIcon;
+
+    btn.addEventListener('click', async () => {
+      const url = `${location.origin}${location.pathname}#${sectionId}`;
+      try {
+        await navigator.clipboard.writeText(url);
+        showAnchorTooltip(btn, 'Link copiado!');
+      } catch {
+        showAnchorTooltip(btn, 'Erro ao copiar');
+      }
+    });
+
+    h2.appendChild(btn);
+  });
+}
+
+function showAnchorTooltip(btn, text) {
+  // Remove tooltip anterior se houver
+  btn.querySelector('.anchor-tooltip')?.remove();
+
+  const tip = document.createElement('span');
+  tip.className = 'anchor-tooltip';
+  tip.setAttribute('role', 'tooltip');
+  tip.textContent = text;
+  btn.appendChild(tip);
+
+  setTimeout(() => tip.remove(), 2000);
 }

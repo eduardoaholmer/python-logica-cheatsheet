@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <!-- [11] Detecta tema antes de renderizar para evitar flash -->
+  <script>(function(){var t=localStorage.getItem('preferred-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Cheat sheet de Python e lógica de programação em português. Variáveis, loops, funções, classes e muito mais.">
   <title>Python + Lógica — Cola</title>
@@ -15,6 +17,8 @@
 
 <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
 <div id="progress-bar" role="progressbar" aria-label="Progresso de leitura"></div>
+<!-- [3] Região aria-live para anunciar resultados de busca -->
+<div id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <header>
   <h1>
@@ -32,6 +36,12 @@
     >
     <button class="search-clear" aria-label="Limpar busca">&#10005;</button>
   </div>
+
+  <!-- [11] Botão de toggle claro/escuro -->
+  <button id="theme-toggle" aria-label="Alternar para tema claro" title="Alternar tema">
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </button>
 
   <div class="nav-wrapper">
     <nav aria-label="Navegação por seções">
@@ -138,14 +148,15 @@ frutas = ["maçã", "uva"]  # list</code></pre>
       <div class="card">
         <div class="tag logic">lógica — comparação</div>
         <div class="logic-text">Comparam dois valores e devolvem <strong class="accent-green">True</strong> ou <strong class="accent-coral">False</strong>. São a base de toda decisão.</div>
+        <!-- [12] Coluna Exemplo adicionada -->
         <table>
-          <tr><th>Op</th><th>Pergunta que faz</th></tr>
-          <tr><td><span class="op-badge">==</span></td><td class="muted">são iguais?</td></tr>
-          <tr><td><span class="op-badge">!=</span></td><td class="muted">são diferentes?</td></tr>
-          <tr><td><span class="op-badge">&gt;</span></td><td class="muted">esquerda é maior?</td></tr>
-          <tr><td><span class="op-badge">&lt;</span></td><td class="muted">esquerda é menor?</td></tr>
-          <tr><td><span class="op-badge">&gt;=</span></td><td class="muted">maior ou igual?</td></tr>
-          <tr><td><span class="op-badge">&lt;=</span></td><td class="muted">menor ou igual?</td></tr>
+          <tr><th>Op</th><th>Pergunta que faz</th><th>Exemplo</th></tr>
+          <tr><td><span class="op-badge">==</span></td><td class="muted">são iguais?</td><td><code>3 == 3 → True</code></td></tr>
+          <tr><td><span class="op-badge">!=</span></td><td class="muted">são diferentes?</td><td><code>3 != 4 → True</code></td></tr>
+          <tr><td><span class="op-badge">&gt;</span></td><td class="muted">esquerda é maior?</td><td><code>5 &gt; 3 → True</code></td></tr>
+          <tr><td><span class="op-badge">&lt;</span></td><td class="muted">esquerda é menor?</td><td><code>3 &lt; 5 → True</code></td></tr>
+          <tr><td><span class="op-badge">&gt;=</span></td><td class="muted">maior ou igual?</td><td><code>5 &gt;= 5 → True</code></td></tr>
+          <tr><td><span class="op-badge">&lt;=</span></td><td class="muted">menor ou igual?</td><td><code>3 &lt;= 5 → True</code></td></tr>
         </table>
       </div>
 
@@ -601,6 +612,21 @@ for item in texto:
     contagem[item] = contagem.get(item, 0) + 1
 
 # {"a": 3, "b": 1, "c": 1}</code></pre>
+      </div>
+
+      <!-- [13] Dict comprehension -->
+      <div class="card">
+        <div class="tag py">dict comprehension</div>
+        <div class="logic-text">Cria um dicionário em uma linha — mesma lógica do list comprehension, mas com <code>chave: valor</code>.</div>
+        <pre><code class="language-python"># inverter chave/valor
+original = {"a": 1, "b": 2}
+invertido = {v: k for k, v in original.items()}
+# {1: "a", 2: "b"}
+
+# filtrar por valor
+notas = {"Ana": 9, "Bruno": 5, "Carla": 7}
+aprovados = {k: v for k, v in notas.items() if v >= 6}
+# {"Ana": 9, "Carla": 7}</code></pre>
       </div>
 
     </div>
@@ -1062,7 +1088,10 @@ while linha := arquivo.readline():
 </main>
 
 <footer>
-  python + lógica — cola &nbsp;·&nbsp; eduardo agnes holmer &nbsp;·&nbsp; v3
+  <!-- [14] Link para repositório no rodapé -->
+  python + lógica — cola &nbsp;·&nbsp; eduardo agnes holmer &nbsp;·&nbsp;
+  <a href="https://github.com/eduardoaholmer/python-logica-cheatsheet" target="_blank" rel="noopener noreferrer">github</a>
+  &nbsp;·&nbsp; v3
 </footer>
 
 <button id="back-to-top" aria-label="Voltar ao topo da página">

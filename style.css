@@ -352,6 +352,7 @@ section.hidden {
   padding: 1.25rem 1.4rem;
   transition: background 0.15s ease;
   position: relative;
+  min-width: 0; /* impede que conteúdo largo estoure a célula do grid */
 }
 
 .card:hover {
@@ -566,7 +567,8 @@ pre[class*="language-"] {
 pre[class*="language-"] {
   margin: 0;
   padding: 0;
-  overflow: visible;
+  /* overflow: visible causava vazamento — Prism tem especificidade maior que pre{} */
+  overflow-x: auto;
   background: transparent !important;
 }
 
@@ -717,6 +719,11 @@ footer {
 
 /* === RESPONSIVE === */
 @media (max-width: 640px) {
+  /* Header real tem 3 linhas no mobile (~150px) — corrige scroll-margin-top das âncoras */
+  :root {
+    --header-height: 150px;
+  }
+
   header {
     padding: 1rem 1.25rem;
     gap: 0.75rem;
@@ -731,12 +738,20 @@ footer {
     order: 3;
   }
 
+  /* Nav: wrapper não pode ter overflow:hidden pois bloqueia touch-scroll do filho em iOS Safari */
   .nav-wrapper {
     width: 100%;
     order: 4;
     flex: none;
+    overflow: visible;
   }
 
+  /* Gradiente de fade não é necessário quando wrapper já é 100% da tela */
+  .nav-wrapper::after {
+    display: none;
+  }
+
+  /* nav mantém seu próprio overflow-x:auto + -webkit-overflow-scrolling:touch do estilo base */
   nav {
     margin-left: 0;
   }
@@ -758,6 +773,7 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  /* Blocos de código sem classe Prism: wrap para não vazar */
   pre {
     white-space: pre-wrap;
     word-break: break-word;
@@ -765,6 +781,29 @@ footer {
 
   pre code {
     word-break: break-word;
+  }
+
+  /* Prism tem especificidade 0-1-1 e sobrepõe pre{}; garantir overflow e wrap aqui */
+  pre[class*="language-"] {
+    overflow-x: auto;
+    white-space: pre;  /* manter indentação — blocos longos scrollam, não quebram */
+  }
+
+  code[class*="language-"] {
+    white-space: pre;
+  }
+
+  /* Tabelas: scroll horizontal em vez de vazar o viewport */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  /* Forçar coluna única em telas ≤ 390px — segurança extra além do minmax */
+  .cards {
+    grid-template-columns: 1fr;
   }
 
   #back-to-top {
@@ -894,5 +933,249 @@ footer {
 
   .vantagens {
     border-top-color: #e5e7eb;
+  }
+}
+
+/* =====================================================
+   NOVOS COMPONENTES — MELHORIAS [3][6][9][10][11][14]
+   ===================================================== */
+
+/* [3] / [9] Utilitário: visível apenas para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* [11] TOGGLE DE TEMA — botão no header */
+#theme-toggle {
+  flex-shrink: 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  order: 2; /* entre search e nav na linha do header */
+}
+
+#theme-toggle:hover {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: #555;
+}
+
+/* Ícones controlados por data-theme no <html> */
+html[data-theme="light"] .icon-moon,
+html:not([data-theme]) .icon-sun { display: none; }
+html[data-theme="dark"] .icon-sun,
+html:not([data-theme]) .icon-moon { display: none; }
+/* fallback: dark é o default — .icon-sun sempre oculto sem data-theme */
+
+/* [11] VARIÁVEIS DO TEMA CLARO */
+[data-theme="light"] {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #eeeae4;
+  --border: #dedad4;
+  --text: #1a1918;
+  --text-muted: #4a4846;
+  --muted: #6b6764;
+  --code-comment: #9b9793;
+  --code-bg: #eeeae4;
+  --tag-py: rgba(3, 105, 161, 0.1);
+  --tag-logic: rgba(109, 40, 217, 0.1);
+}
+
+[data-theme="light"] body {
+  scrollbar-color: #dedad4 transparent;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #dedad4;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #c8c4be;
+}
+
+/* Prism tokens em tema claro */
+[data-theme="light"] code[class*="language-"],
+[data-theme="light"] pre[class*="language-"] {
+  color: #2d2b28;
+}
+
+[data-theme="light"] .token.keyword,
+[data-theme="light"] .token.boolean,
+[data-theme="light"] .token.important { color: #7c3aed; }
+
+[data-theme="light"] .token.function,
+[data-theme="light"] .token.builtin,
+[data-theme="light"] .token.class-name { color: #0369a1; }
+
+[data-theme="light"] .token.string,
+[data-theme="light"] .token.char,
+[data-theme="light"] .token.attr-value { color: #059669; }
+
+[data-theme="light"] .token.number { color: #d97706; }
+
+[data-theme="light"] .token.operator,
+[data-theme="light"] .token.punctuation { color: #dc2626; }
+
+[data-theme="light"] .token.comment { color: #6b7280; font-style: italic; }
+
+[data-theme="light"] .token.decorator { color: #b45309; }
+
+/* Componentes específicos em tema claro */
+[data-theme="light"] .card:hover {
+  background: #f9f7f4;
+  box-shadow: inset 3px 0 0 var(--accent-py);
+}
+
+[data-theme="light"] nav a:hover,
+[data-theme="light"] nav a.active {
+  background: var(--surface2);
+  border-color: #aaa;
+  color: var(--text);
+}
+
+[data-theme="light"] #theme-toggle:hover {
+  background: #e8e4de;
+  border-color: #aaa;
+}
+
+[data-theme="light"] footer {
+  color: #aaa;
+}
+
+[data-theme="light"] footer a {
+  color: #888;
+}
+
+[data-theme="light"] #back-to-top:hover {
+  background: #e8e4de;
+}
+
+[data-theme="light"] .copy-btn:hover {
+  background: #e8e4de;
+  border-color: #aaa;
+}
+
+/* [6] LEGENDA COMPACTA POR SEÇÃO */
+.section-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 0.85rem;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.02em;
+}
+
+.sl-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sl-dot.logic { background: var(--accent-logic); }
+.sl-dot.py    { background: var(--accent-py); }
+
+.sl-sep {
+  color: var(--border);
+  margin: 0 0.3rem;
+}
+
+/* [10] ÂNCORAS NOS TÍTULOS DE SEÇÃO */
+.anchor-btn {
+  opacity: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 0.3rem;
+  margin-left: 0.2rem;
+  vertical-align: middle;
+  transition: opacity 0.2s, color 0.2s;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+section h2:hover .anchor-btn,
+.anchor-btn:focus-visible {
+  opacity: 1;
+}
+
+.anchor-btn:hover {
+  color: var(--accent-py);
+}
+
+.anchor-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 50;
+  animation: tooltip-in 0.15s ease;
+}
+
+@keyframes tooltip-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* [14] Link no rodapé */
+footer a {
+  color: #555;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+footer a:hover {
+  color: var(--muted);
+}
+
+/* [8] Grid: último item sozinho expande para preencher linha */
+/* DECISÃO: auto-fit + minmax já resolve na maioria dos casos.
+   Esta regra cobre a exceção de 1 item numa linha de 2. */
+@media (min-width: 641px) {
+  .cards > .card:last-child:nth-child(odd):not(.wide) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* [9] Hint visual do atalho no placeholder — já no HTML;
+   foco via "/" apenas com JS. Sem estilo extra necessário. */
+
+/* Tema claro: mobile sem mudar cores de surface no nav-wrapper */
+@media (max-width: 640px) {
+  #theme-toggle {
+    order: 2;
+    width: 32px;
+    height: 32px;
   }
 }
