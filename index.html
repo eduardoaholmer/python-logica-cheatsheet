@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cheat sheet de Python e lógica de programação em português. Variáveis, loops, funções, classes e muito mais.">
+  <title>Python + Lógica — Cola</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+<div id="progress-bar" role="progressbar" aria-label="Progresso de leitura"></div>
+
+<header>
+  <h1>
+    <span class="py">Python</span><span class="sep"> + </span><span class="logic">Lógica</span>&nbsp;—&nbsp;Cola
+  </h1>
+
+  <div class="search-wrapper" role="search">
+    <input
+      type="search"
+      id="search-input"
+      placeholder="Buscar conceito, função, exemplo..."
+      aria-label="Buscar no conteúdo"
+      autocomplete="off"
+      spellcheck="false"
+    >
+    <button class="search-clear" aria-label="Limpar busca">&#10005;</button>
+  </div>
+
+  <div class="nav-wrapper">
+    <nav aria-label="Navegação por seções">
+      <a href="#variaveis">Variáveis</a>
+      <a href="#operadores">Operadores</a>
+      <a href="#condicionais">Condicionais</a>
+      <a href="#loops">Loops</a>
+      <a href="#funcoes">Funções</a>
+      <a href="#strings">Strings</a>
+      <a href="#listas">Listas</a>
+      <a href="#dicts">Dicts</a>
+      <a href="#tuplas">Tuplas &amp; Sets</a>
+      <a href="#erros">Erros</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#funcoes-avancadas">Funções+</a>
+      <a href="#classes">Classes</a>
+      <a href="#padroes">Padrões</a>
+      <a href="#resumo">Resumo</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <div class="legend">
+    <div class="legend-item"><div class="dot logic"></div><strong>Lógica</strong> — o conceito por trás</div>
+    <div class="legend-item"><div class="dot py"></div><strong>Python</strong> — como escrever</div>
+  </div>
+
+  <!-- ===================== VARIÁVEIS ===================== -->
+  <section id="variaveis">
+    <h2><span class="num">01</span>Variáveis &amp; tipos</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Uma variável é uma <strong>caixinha com nome</strong>. Você guarda um valor dentro dela pra usar depois. O tipo define <em>o que cabe nessa caixa</em>: número, texto, verdadeiro/falso, lista de coisas, etc.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">código mais legível</span>
+          <span class="vantagem">evita repetir valores</span>
+          <span class="vantagem">muda em um lugar só</span>
+          <span class="vantagem">nome revela a intenção</span>
+          <span class="vantagem">tipos previnem erros</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label py">Python</div>
+            <pre><code class="language-python"># criar = dar nome + valor
+nome  = "Eduardo"       # str
+idade = 22              # int
+salto = 1.78            # float
+ativo = True            # bool
+frutas = ["maçã", "uva"]  # list</code></pre>
+          </div>
+          <div>
+            <div class="col-label logic">tipos principais</div>
+            <table>
+              <tr><th>Tipo</th><th>O que guarda</th></tr>
+              <tr><td><code>int</code></td><td class="muted">número inteiro (22)</td></tr>
+              <tr><td><code>float</code></td><td class="muted">número decimal (1.78)</td></tr>
+              <tr><td><code>str</code></td><td class="muted">texto ("olá")</td></tr>
+              <tr><td><code>bool</code></td><td class="muted">True ou False</td></tr>
+              <tr><td><code>list</code></td><td class="muted">coleção ordenada e mutável</td></tr>
+              <tr><td><code>tuple</code></td><td class="muted">coleção ordenada e imutável</td></tr>
+              <tr><td><code>set</code></td><td class="muted">coleção sem duplicatas</td></tr>
+              <tr><td><code>dict</code></td><td class="muted">chave → valor</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== OPERADORES ===================== -->
+  <section id="operadores">
+    <h2><span class="num">02</span>Operadores</h2>
+    <div class="cards">
+
+      <div class="card">
+        <div class="tag logic">lógica — matemáticos</div>
+        <div class="logic-text">Fazem contas. O resultado vai para uma variável ou é usado direto numa condição.</div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">cálculos direto no código</span>
+          <span class="vantagem">base de qualquer decisão</span>
+          <span class="vantagem">expressões compostas em uma linha</span>
+        </div>
+        <table>
+          <tr><th>Op</th><th>Faz</th><th>Exemplo</th></tr>
+          <tr><td><span class="op-badge">+</span></td><td class="muted">adição</td><td><code>3 + 2 → 5</code></td></tr>
+          <tr><td><span class="op-badge">-</span></td><td class="muted">subtração</td><td><code>3 - 2 → 1</code></td></tr>
+          <tr><td><span class="op-badge">*</span></td><td class="muted">multiplicação</td><td><code>3 * 2 → 6</code></td></tr>
+          <tr><td><span class="op-badge">/</span></td><td class="muted">divisão (float)</td><td><code>7 / 2 → 3.5</code></td></tr>
+          <tr><td><span class="op-badge">//</span></td><td class="muted">divisão inteira</td><td><code>7 // 2 → 3</code></td></tr>
+          <tr><td><span class="op-badge">%</span></td><td class="muted">resto da divisão</td><td><code>7 % 2 → 1</code></td></tr>
+          <tr><td><span class="op-badge">**</span></td><td class="muted">potência</td><td><code>2 ** 3 → 8</code></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">lógica — comparação</div>
+        <div class="logic-text">Comparam dois valores e devolvem <strong class="accent-green">True</strong> ou <strong class="accent-coral">False</strong>. São a base de toda decisão.</div>
+        <table>
+          <tr><th>Op</th><th>Pergunta que faz</th></tr>
+          <tr><td><span class="op-badge">==</span></td><td class="muted">são iguais?</td></tr>
+          <tr><td><span class="op-badge">!=</span></td><td class="muted">são diferentes?</td></tr>
+          <tr><td><span class="op-badge">&gt;</span></td><td class="muted">esquerda é maior?</td></tr>
+          <tr><td><span class="op-badge">&lt;</span></td><td class="muted">esquerda é menor?</td></tr>
+          <tr><td><span class="op-badge">&gt;=</span></td><td class="muted">maior ou igual?</td></tr>
+          <tr><td><span class="op-badge">&lt;=</span></td><td class="muted">menor ou igual?</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">lógica — booleanos</div>
+        <div class="logic-text">Combinam condições. A pergunta vira uma resposta única: verdadeiro ou falso.</div>
+        <pre><code class="language-python"># and → as DUAS precisam ser True
+idade >= 18 and tem_cnh == True
+
+# or → PELO MENOS UMA precisa ser True
+eh_admin or eh_moderador
+
+# not → inverte
+not esta_logado  # True se NÃO estiver logado</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== CONDICIONAIS ===================== -->
+  <section id="condicionais">
+    <h2><span class="num">03</span>Condicionais</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          "Se isso for verdade, faça A. Senão, faça B." — o programa toma decisões. Pensa como uma bifurcação na estrada: dependendo da resposta, você vai por um caminho ou outro.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">controle de fluxo claro</span>
+          <span class="vantagem">separa casos de sucesso e erro</span>
+          <span class="vantagem">cada caminho testável isoladamente</span>
+          <span class="vantagem">evita executar lógica indevida</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label logic">fluxo mental</div>
+            <pre><code>condição? ──→ True  → bloco if
+          └──→ False → bloco else
+
+múltiplas? → elif encadeia
+cada elif é uma nova pergunta</code></pre>
+          </div>
+          <div>
+            <div class="col-label py">Python</div>
+            <pre><code class="language-python">nota = 7
+
+if nota >= 9:
+    print("Excelente")
+elif nota >= 6:
+    print("Aprovado")
+else:
+    print("Reprovado")</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">lógica — ternário</div>
+        <div class="logic-text">Condicional em uma linha. Use quando a lógica é simples.</div>
+        <pre><code class="language-python"># valor_se_true if condição else valor_se_false
+status = "maior" if idade >= 18 else "menor"</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">lógica — in</div>
+        <div class="logic-text">Verifica se um valor <em>está dentro</em> de uma coleção.</div>
+        <pre><code class="language-python">cores = ["azul", "verde", "vermelho"]
+
+if "azul" in cores:
+    print("tem azul!")
+
+if "rosa" not in cores:
+    print("sem rosa")</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== LOOPS ===================== -->
+  <section id="loops">
+    <h2><span class="num">04</span>Loops</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Repetição controlada. Dois tipos de pergunta: <strong>"repita X vezes"</strong> (for) ou <strong>"repita enquanto for verdade"</strong> (while). A diferença é: no for você sabe quantas vezes. No while você não sabe — para quando a condição mudar.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">elimina código repetido</span>
+          <span class="vantagem">escala para qualquer volume de dados</span>
+          <span class="vantagem">DRY — escreva uma vez</span>
+          <span class="vantagem">comprehension: conciso e expressivo</span>
+          <span class="vantagem">processamento em lote</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">for — iterar lista</div>
+        <div class="logic-text">Para cada item da coleção, execute o bloco.</div>
+        <pre><code class="language-python">nomes = ["Ana", "Bruno", "Carla"]
+
+for nome in nomes:
+    print(f"Olá, {nome}!")</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">for — com range</div>
+        <div class="logic-text">Quando você precisa de um contador numérico.</div>
+        <pre><code class="language-python">for i in range(5):        # 0 a 4
+    print(i)
+
+for i in range(1, 6):    # 1 a 5
+    print(i)
+
+for i in range(10, 0, -1): # 10→1
+    print(i)</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">for — com enumerate</div>
+        <div class="logic-text">Quando você precisa do índice E do valor ao mesmo tempo.</div>
+        <pre><code class="language-python">frutas = ["maçã", "uva", "pera"]
+
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")
+# 0: maçã  /  1: uva  /  2: pera</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">while</div>
+        <div class="logic-text">Repete enquanto a condição for verdadeira. Cuidado: se nunca virar False, loop infinito.</div>
+        <pre><code class="language-python">contador = 0
+
+while contador &lt; 3:
+    print(contador)
+    contador += 1
+# 0, 1, 2</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">break / continue</div>
+        <div class="logic-text"><strong>break</strong> = para o loop agora. <strong>continue</strong> = pula para a próxima volta.</div>
+        <pre><code class="language-python">for n in range(10):
+    if n == 3:
+        continue  # pula o 3
+    if n == 6:
+        break     # para no 6
+    print(n)  # 0 1 2 4 5</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">list comprehension</div>
+        <div class="logic-text">Cria uma lista nova a partir de outra em uma linha. <em>For + condição + resultado = lista.</em></div>
+        <pre><code class="language-python">nums = [1, 2, 3, 4, 5]
+
+# dobrar todos
+dobros = [n * 2 for n in nums]
+# [2, 4, 6, 8, 10]
+
+# só os pares
+pares = [n for n in nums if n % 2 == 0]
+# [2, 4]</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== FUNÇÕES ===================== -->
+  <section id="funcoes">
+    <h2><span class="num">05</span>Funções</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Uma função é um <strong>bloco de código com nome</strong> que você pode chamar quantas vezes quiser. Recebe dados (parâmetros), faz algo, devolve um resultado (return). Pensa como uma máquina: coloca algo na entrada, sai algo na saída.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">escreva uma vez, use em qualquer lugar</span>
+          <span class="vantagem">testável de forma isolada</span>
+          <span class="vantagem">bug corrigido em um único lugar</span>
+          <span class="vantagem">nome documenta a intenção</span>
+          <span class="vantagem">divide problemas grandes em partes pequenas</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">definir + chamar</div>
+        <pre><code class="language-python">def saudar(nome):
+    return f"Olá, {nome}!"
+
+resultado = saudar("Eduardo")
+print(resultado)
+# Olá, Eduardo!</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">parâmetro padrão</div>
+        <div class="logic-text">Valor usado quando o argumento não é passado.</div>
+        <pre><code class="language-python">def conectar(host="localhost", porta=3306):
+    print(f"{host}:{porta}")
+
+conectar()              # localhost:3306
+conectar("prod.db")    # prod.db:3306
+conectar(porta=5432)   # localhost:5432</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">múltiplos retornos</div>
+        <div class="logic-text">Python retorna tuplas naturalmente — desestruture direto.</div>
+        <pre><code class="language-python">def minmax(lista):
+    return min(lista), max(lista)
+
+menor, maior = minmax([3, 1, 7, 2])
+# menor=1  /  maior=7</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">*args — n argumentos</div>
+        <div class="logic-text">Quando você não sabe quantos argumentos posicionais virão.</div>
+        <pre><code class="language-python">def somar(*nums):
+    return sum(nums)
+
+somar(1, 2)           # 3
+somar(1, 2, 3, 4)   # 10</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">**kwargs — argumentos nomeados</div>
+        <div class="logic-text">Quando você não sabe quais argumentos com nome virão. Chegam como um dicionário.</div>
+        <pre><code class="language-python">def configurar(**opcoes):
+    for k, v in opcoes.items():
+        print(f"{k} = {v}")
+
+configurar(cor="azul", tamanho=12)
+# cor = azul  /  tamanho = 12</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">lambda — função anônima</div>
+        <div class="logic-text">Função de uma linha, sem nome. Útil passada como argumento para outra função.</div>
+        <pre><code class="language-python"># lambda argumentos: expressão
+dobro = lambda x: x * 2
+dobro(5)  # 10
+
+# ordenar por tamanho do nome
+nomes = ["Carla", "Ana", "Bruno"]
+sorted(nomes, key=lambda n: len(n))
+# ["Ana", "Bruno", "Carla"]</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== STRINGS ===================== -->
+  <section id="strings">
+    <h2><span class="num">06</span>Strings</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Uma string é uma <strong>sequência de caracteres</strong>. Funciona como uma lista de letras: tem índices, pode ser fatiada, mas é <em>imutável</em> — você não muda a string original, cria uma nova.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">métodos prontos — sem lógica manual</span>
+          <span class="vantagem">f-string: interpolação simples e legível</span>
+          <span class="vantagem">imutabilidade garante segurança</span>
+          <span class="vantagem">fatiamento flexível</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label py">criar + acessar</div>
+            <pre><code class="language-python">s = "Olá, mundo"
+
+s[0]      # "O"
+s[-1]     # "o"
+s[0:3]    # "Olá"
+len(s)    # 10
+
+# f-string: interpola variáveis
+nome = "Eduardo"
+print(f"Olá, {nome}!")</code></pre>
+          </div>
+          <div>
+            <div class="col-label py">métodos essenciais</div>
+            <table>
+              <tr><th>Método</th><th>Faz</th></tr>
+              <tr><td><code>.upper()</code></td><td class="muted">tudo maiúsculo</td></tr>
+              <tr><td><code>.lower()</code></td><td class="muted">tudo minúsculo</td></tr>
+              <tr><td><code>.strip()</code></td><td class="muted">remove espaços das bordas</td></tr>
+              <tr><td><code>.split(sep)</code></td><td class="muted">divide em lista</td></tr>
+              <tr><td><code>.join(lista)</code></td><td class="muted">une lista em string</td></tr>
+              <tr><td><code>.replace(a, b)</code></td><td class="muted">substitui a por b</td></tr>
+              <tr><td><code>.find(sub)</code></td><td class="muted">posição ou -1</td></tr>
+              <tr><td><code>.startswith(s)</code></td><td class="muted">começa com s?</td></tr>
+              <tr><td><code>.count(sub)</code></td><td class="muted">conta ocorrências</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">exemplos práticos</div>
+        <pre><code class="language-python">frase = "  Python é incrível  "
+
+frase.strip()
+# "Python é incrível"
+
+frase.replace("Python", "JS")
+# "  JS é incrível  "
+
+palavras = "a,b,c".split(",")
+# ["a", "b", "c"]
+
+"-".join(palavras)
+# "a-b-c"</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">verificações</div>
+        <pre><code class="language-python">s = "email@exemplo.com"
+
+"@" in s               # True
+s.startswith("email") # True
+s.endswith(".com")    # True
+s.count("e")          # 2
+s.find("@")           # 5</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== LISTAS ===================== -->
+  <section id="listas">
+    <h2><span class="num">07</span>Listas (Arrays)</h2>
+    <div class="cards">
+
+      <div class="card">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">Uma coleção ordenada de itens. Cada item tem um índice (começa em 0). Mutável: você pode adicionar, remover, modificar.</div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">agrupa dados relacionados</span>
+          <span class="vantagem">ordenação e busca embutidas</span>
+          <span class="vantagem">fatiamento para sub-conjuntos</span>
+          <span class="vantagem">indexação previsível</span>
+        </div>
+        <pre><code class="language-python">t = ["a", "b", "c", "d"]
+
+t[0]     # "a"  (primeiro)
+t[-1]    # "d"  (último)
+t[1:3]   # ["b","c"]  (slice)
+len(t)   # 4</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">métodos essenciais</div>
+        <table>
+          <tr><th>Método</th><th>Faz</th></tr>
+          <tr><td><code>.append(x)</code></td><td class="muted">adiciona no fim</td></tr>
+          <tr><td><code>.extend(lista)</code></td><td class="muted">junta outra lista</td></tr>
+          <tr><td><code>.insert(i, x)</code></td><td class="muted">insere na posição i</td></tr>
+          <tr><td><code>.pop(i)</code></td><td class="muted">remove e retorna item</td></tr>
+          <tr><td><code>.remove(x)</code></td><td class="muted">remove por valor</td></tr>
+          <tr><td><code>.sort()</code></td><td class="muted">ordena no lugar</td></tr>
+          <tr><td><code>.reverse()</code></td><td class="muted">inverte no lugar</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="tag py">funções built-in</div>
+        <pre><code class="language-python">nums = [3, 41, 12, 9, 74]
+
+len(nums)    # 5   — quantos itens
+max(nums)    # 74  — maior
+min(nums)    # 3   — menor
+sum(nums)    # 139 — soma total
+sorted(nums) # nova lista ordenada</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== DICTS ===================== -->
+  <section id="dicts">
+    <h2><span class="num">08</span>Dicionários</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Estrutura de <strong>chave → valor</strong>. Ao invés de índice numérico, você acessa pelo nome. Pensa como um perfil de usuário: <code>usuario["nome"]</code> devolve o nome, <code>usuario["email"]</code> devolve o email.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">busca por chave em O(1)</span>
+          <span class="vantagem">dados autodocumentados</span>
+          <span class="vantagem">ideal para configurações e perfis</span>
+          <span class="vantagem">leitura intuitiva</span>
+          <span class="vantagem">fácil de serializar para JSON</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label py">criar + acessar</div>
+            <pre><code class="language-python">pessoa = {
+    "nome": "Eduardo",
+    "idade": 22,
+    "ativo": True
+}
+
+pessoa["nome"]           # "Eduardo"
+pessoa["idade"]          # 22
+pessoa.get("email", "—") # "—" (não existe)</code></pre>
+          </div>
+          <div>
+            <div class="col-label py">iterar</div>
+            <pre><code class="language-python"># só as chaves
+for chave in pessoa:
+    print(chave)
+
+# chave e valor juntos
+for k, v in pessoa.items():
+    print(f"{k}: {v}")
+
+# verificar existência
+"nome" in pessoa  # True</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">modificar</div>
+        <pre><code class="language-python">pessoa["idade"] = 23   # atualiza
+pessoa["city"] = "POA"  # adiciona
+del pessoa["ativo"]     # remove</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">dict como contador</div>
+        <div class="logic-text">Padrão clássico: contar ocorrências de palavras/itens.</div>
+        <pre><code class="language-python">texto = ["a", "b", "a", "c", "a"]
+contagem = {}
+
+for item in texto:
+    contagem[item] = contagem.get(item, 0) + 1
+
+# {"a": 3, "b": 1, "c": 1}</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== TUPLAS & SETS ===================== -->
+  <section id="tuplas">
+    <h2><span class="num">09</span>Tuplas &amp; Sets</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          <strong>Tupla:</strong> como uma lista, mas <em>imutável</em> — depois de criada, não muda. Ideal para dados que não devem ser alterados (coordenadas, cores RGB, configurações). <strong>Set:</strong> coleção <em>sem ordem e sem duplicatas</em> — útil para checar pertencimento e operações de conjunto.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">tupla: integridade garantida</span>
+          <span class="vantagem">set: sem duplicatas automático</span>
+          <span class="vantagem">operações de conjunto nativas</span>
+          <span class="vantagem">set: busca mais rápida que lista</span>
+          <span class="vantagem">desestruturação direta</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">tupla</div>
+        <pre><code class="language-python"># criar com parênteses
+coords = (10, 20)
+rgb    = (255, 128, 0)
+
+coords[0]   # 10
+len(coords) # 2
+
+# desestruturar
+x, y = coords
+print(x, y) # 10  20</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">set</div>
+        <pre><code class="language-python"># duplicatas removidas automaticamente
+cores = {"azul", "verde", "azul"}
+# {"azul", "verde"}
+
+cores.add("vermelho")
+cores.discard("verde")
+"azul" in cores  # True</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">operações de conjunto</div>
+        <div class="logic-text">Sets suportam operações matemáticas de conjuntos.</div>
+        <pre><code class="language-python">a = {1, 2, 3}
+b = {2, 3, 4}
+
+a &amp; b  # {2, 3}        — interseção
+a | b  # {1, 2, 3, 4}  — união
+a - b  # {1}           — diferença</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== ERROS ===================== -->
+  <section id="erros">
+    <h2><span class="num">10</span>Tratamento de erros</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          "Tente fazer isso. Se der errado de tal jeito, faça aquilo. Acontecendo erro ou não, sempre faça isso no fim." — evita que o programa quebre e te dá controle sobre o que pode falhar.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">programa resiliente a falhas</span>
+          <span class="vantagem">mensagens claras para o usuário</span>
+          <span class="vantagem">lógica separada do tratamento de erros</span>
+          <span class="vantagem">finally garante limpeza de recursos</span>
+          <span class="vantagem">raise sinaliza regras de negócio</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label py">estrutura</div>
+            <pre><code class="language-python">try:
+    resultado = 10 / x
+except ZeroDivisionError as e:
+    print(f"Erro: {e}")
+except TypeError:
+    print("Tipo errado!")
+else:
+    print("Deu certo!", resultado)
+finally:
+    print("Sempre roda")</code></pre>
+          </div>
+          <div>
+            <div class="col-label logic">o que cada bloco faz</div>
+            <table>
+              <tr><th>Bloco</th><th>Quando roda</th></tr>
+              <tr><td><code>try</code></td><td class="muted">código que pode falhar</td></tr>
+              <tr><td><code>except</code></td><td class="muted">se o erro especificado ocorrer</td></tr>
+              <tr><td><code>else</code></td><td class="muted">se NÃO deu erro</td></tr>
+              <tr><td><code>finally</code></td><td class="muted">sempre, com ou sem erro</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag logic">erros comuns</div>
+        <table>
+          <tr><th>Erro</th><th>Causa</th></tr>
+          <tr><td><code>TypeError</code></td><td class="muted">tipo errado de dado</td></tr>
+          <tr><td><code>ValueError</code></td><td class="muted">valor inválido</td></tr>
+          <tr><td><code>KeyError</code></td><td class="muted">chave não existe no dict</td></tr>
+          <tr><td><code>IndexError</code></td><td class="muted">índice fora da lista</td></tr>
+          <tr><td><code>ZeroDivisionError</code></td><td class="muted">divisão por zero</td></tr>
+          <tr><td><code>FileNotFoundError</code></td><td class="muted">arquivo não existe</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="tag py">raise — lançar erro</div>
+        <div class="logic-text">Você mesmo pode lançar um erro quando uma regra de negócio falha.</div>
+        <pre><code class="language-python">def sacar(saldo, valor):
+    if valor &gt; saldo:
+        raise ValueError("Saldo insuficiente")
+    return saldo - valor
+
+try:
+    sacar(100, 200)
+except ValueError as e:
+    print(e)  # Saldo insuficiente</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== MÓDULOS ===================== -->
+  <section id="modulos">
+    <h2><span class="num">11</span>Módulos</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Um módulo é um <strong>arquivo Python com funções prontas</strong>. Você importa o que precisa em vez de escrever tudo do zero. A biblioteca padrão do Python já vem com dezenas deles — sem instalar nada.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">simplicidade — não reinvente a roda</span>
+          <span class="vantagem">melhor manutenibilidade</span>
+          <span class="vantagem">isolamento de responsabilidades</span>
+          <span class="vantagem">facilita colaboração em equipe</span>
+          <span class="vantagem">código já testado e confiável</span>
+        </div>
+        <div class="side-by-side">
+          <div>
+            <div class="col-label py">formas de importar</div>
+            <pre><code class="language-python"># módulo inteiro
+import math
+math.sqrt(16)    # 4.0
+math.pi          # 3.14159…
+
+# função específica
+from math import sqrt, pi
+sqrt(25)         # 5.0
+
+# alias
+import random as r
+r.randint(1, 10) # inteiro aleatório</code></pre>
+          </div>
+          <div>
+            <div class="col-label logic">módulos úteis</div>
+            <table>
+              <tr><th>Módulo</th><th>Para quê</th></tr>
+              <tr><td><code>math</code></td><td class="muted">sqrt, pi, floor, ceil…</td></tr>
+              <tr><td><code>random</code></td><td class="muted">randint, choice, shuffle</td></tr>
+              <tr><td><code>os</code></td><td class="muted">arquivos e pastas do sistema</td></tr>
+              <tr><td><code>datetime</code></td><td class="muted">datas e horas</td></tr>
+              <tr><td><code>json</code></td><td class="muted">ler e escrever JSON</td></tr>
+              <tr><td><code>sys</code></td><td class="muted">acesso ao interpretador</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">datetime + os</div>
+        <pre><code class="language-python">from datetime import datetime
+import os
+
+# data e hora atual
+agora = datetime.now()
+agora.strftime("%d/%m/%Y %H:%M")
+# "04/05/2026 10:30"
+
+# sistema de arquivos
+os.path.exists("dados.txt")         # True / False
+os.path.join("pasta", "arq.txt")   # "pasta/arq.txt"</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">json + random</div>
+        <pre><code class="language-python">import json, random
+
+# dict → string JSON
+dados = {"nome": "Eduardo", "idade": 22}
+texto = json.dumps(dados)
+# '{"nome": "Eduardo", "idade": 22}'
+
+# string JSON → dict
+obj = json.loads(texto)
+obj["nome"]  # "Eduardo"
+
+# random
+frutas = ["maçã", "uva", "pera"]
+random.choice(frutas)   # item aleatório
+random.shuffle(frutas)  # embaralha no lugar</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">random</div>
+        <div class="logic-text">Gera valores aleatórios — números, escolhas, embaralhamento.</div>
+        <pre><code class="language-python">import random
+
+random.randint(1, 10)        # inteiro entre 1 e 10
+random.choice(["a","b","c"]) # escolhe um item
+random.random()              # float entre 0.0 e 1.0
+
+nums = [1, 2, 3, 4, 5]
+random.shuffle(nums)         # embaralha in-place</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== FUNÇÕES AVANÇADAS ===================== -->
+  <section id="funcoes-avancadas">
+    <h2><span class="num">12</span>Funções avançadas</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          <strong>zip</strong>, <strong>map</strong> e <strong>filter</strong> são funções de alta ordem — recebem outra função como argumento e operam sobre coleções inteiras sem precisar de um loop explícito.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">código declarativo e expressivo</span>
+          <span class="vantagem">sem loops explícitos desnecessários</span>
+          <span class="vantagem">transformações encadeadas</span>
+          <span class="vantagem">mais legível para operações em coleções</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">zip — combinar listas</div>
+        <div class="logic-text">Une dois iteráveis em pares, item por item. Para no menor deles.</div>
+        <pre><code class="language-python">nomes = ["Ana", "Bruno", "Carla"]
+notas = [8.5, 7.0, 9.2]
+
+for nome, nota in zip(nomes, notas):
+    print(f"{nome}: {nota}")
+# Ana: 8.5  /  Bruno: 7.0  /  Carla: 9.2
+
+# criar dict direto com zip
+ranking = dict(zip(nomes, notas))</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">map — transformar</div>
+        <div class="logic-text">Aplica uma função a cada item e devolve um iterável com os resultados.</div>
+        <pre><code class="language-python">nums = [1, 2, 3, 4]
+
+dobros = list(map(lambda x: x * 2, nums))
+# [2, 4, 6, 8]
+
+nomes = ["ana", "bruno"]
+maiusc = list(map(str.upper, nomes))
+# ["ANA", "BRUNO"]</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">filter — filtrar</div>
+        <div class="logic-text">Mantém apenas os itens para os quais a função retorna True.</div>
+        <pre><code class="language-python">nums = [1, 2, 3, 4, 5, 6]
+
+pares = list(filter(lambda x: x % 2 == 0, nums))
+# [2, 4, 6]
+
+nomes = ["Ana", "Bruno", "Al"]
+longos = list(filter(lambda n: len(n) &gt; 2, nomes))
+# ["Ana", "Bruno"]</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== CLASSES ===================== -->
+  <section id="classes">
+    <h2><span class="num">13</span>Classes (POO básico)</h2>
+    <div class="cards">
+
+      <div class="card">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Uma <strong>classe</strong> é um molde — define os atributos e comportamentos de todos os objetos desse tipo. <strong><code>__init__</code></strong> é o construtor: roda automaticamente quando o objeto é criado. <strong><code>self</code></strong> é a referência ao próprio objeto — como dizer "eu" dentro da classe. Cada instância criada tem seus próprios valores, independentes.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">dados e comportamentos juntos</span>
+          <span class="vantagem">reutilização via instâncias</span>
+          <span class="vantagem">modela conceitos do mundo real</span>
+          <span class="vantagem">escala para sistemas complexos</span>
+          <span class="vantagem">encapsulamento e organização</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">Python</div>
+        <pre><code class="language-python">class Pessoa:
+    def __init__(self, nome, idade):
+        self.nome  = nome
+        self.idade = idade
+
+    def apresentar(self):
+        return f"Olá, sou {self.nome} e tenho {self.idade} anos."
+
+# instanciar (criar um objeto)
+p = Pessoa("Eduardo", 22)
+p.apresentar()
+# "Olá, sou Eduardo e tenho 22 anos."
+
+p.nome   # "Eduardo"
+p.idade  # 22</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">herança e métodos especiais</div>
+        <div class="logic-text">
+          Herança permite que uma classe filha herde atributos e métodos da classe pai. <strong><code>__str__</code></strong> controla o que <code>print()</code> exibe do objeto.
+        </div>
+        <pre><code class="language-python">class Animal:
+    def __init__(self, nome):
+        self.nome = nome
+    def __str__(self):
+        return f"Animal: {self.nome}"
+
+class Cachorro(Animal):
+    def latir(self):
+        return f"{self.nome} diz: Au!"
+
+c = Cachorro("Rex")
+print(c)        # Animal: Rex
+c.latir()       # "Rex diz: Au!"</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PADRÕES ÚTEIS ===================== -->
+  <section id="padroes">
+    <h2><span class="num">14</span>Padrões úteis</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">lógica</div>
+        <div class="logic-text">
+          Pequenos hábitos que tornam o código mais <strong>legível, seguro e profissional</strong> — sem mudar o que ele faz. Type hints anotam os tipos esperados, docstrings documentam a função, e o operador walrus evita chamadas duplicadas.
+        </div>
+        <div class="vantagens">
+          <div class="vantagens-label">por que usar</div>
+          <span class="vantagem">type hints: erros detectados antes de rodar</span>
+          <span class="vantagem">docstrings: documentação viva via help()</span>
+          <span class="vantagem">walrus: conciso sem sacrificar clareza</span>
+          <span class="vantagem">facilita revisão de código em equipe</span>
+          <span class="vantagem">IDEs oferecem autocomplete mais preciso</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag py">type hints</div>
+        <div class="logic-text">Anotações de tipo — não obrigam nada em runtime, mas documentam e habilitam análise estática de código.</div>
+        <pre><code class="language-python">def somar(a: int, b: int) -&gt; int:
+    return a + b
+
+def saudar(nome: str) -&gt; str:
+    return f"Olá, {nome}!"
+
+# listas tipadas (Python 3.9+)
+def media(nums: list[float]) -&gt; float:
+    return sum(nums) / len(nums)</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">docstrings</div>
+        <div class="logic-text">Strings de documentação — ficam logo abaixo de <code>def</code> ou <code>class</code> e são acessíveis via <code>help()</code>.</div>
+        <pre><code class="language-python">def calcular_imc(peso: float, altura: float) -&gt; float:
+    """Calcula o IMC dado peso (kg) e altura (m)."""
+    return peso / altura ** 2
+
+# acessar documentação
+help(calcular_imc)
+print(calcular_imc.__doc__)</code></pre>
+      </div>
+
+      <div class="card">
+        <div class="tag py">walrus :=</div>
+        <div class="logic-text">Atribui <em>e</em> retorna o valor na mesma expressão (Python 3.8+). Evita chamar a função duas vezes.</div>
+        <pre><code class="language-python"># sem walrus — função chamada duas vezes
+if obter_dados():
+    processar(obter_dados())
+
+# com walrus — atribui e testa de uma vez
+if dados := obter_dados():
+    processar(dados)
+
+# útil em while
+while linha := arquivo.readline():
+    processar(linha)</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== RESUMO GERAL ===================== -->
+  <section id="resumo">
+    <h2><span class="num">15</span>Resumo geral</h2>
+    <div class="cards">
+
+      <div class="card wide">
+        <div class="tag logic">todos os tópicos</div>
+        <table>
+          <tr><th>#</th><th>Conceito</th><th>Lógica central</th><th>Python</th></tr>
+          <tr><td class="muted">01</td><td>Variáveis</td><td class="muted">caixinha com nome e tipo</td><td><code>x = 42</code></td></tr>
+          <tr><td class="muted">02</td><td>Operadores</td><td class="muted">calcular e comparar valores</td><td><code>+ - * / == and</code></td></tr>
+          <tr><td class="muted">03</td><td>Condicionais</td><td class="muted">bifurcação no fluxo</td><td><code>if / elif / else</code></td></tr>
+          <tr><td class="muted">04</td><td>Loops</td><td class="muted">repetição controlada</td><td><code>for / while</code></td></tr>
+          <tr><td class="muted">05</td><td>Funções</td><td class="muted">bloco reutilizável com nome</td><td><code>def fn(): return</code></td></tr>
+          <tr><td class="muted">06</td><td>Strings</td><td class="muted">sequência imutável de chars</td><td><code>s.split()  f"{x}"</code></td></tr>
+          <tr><td class="muted">07</td><td>Listas</td><td class="muted">coleção ordenada e mutável</td><td><code>l.append()  l[0]</code></td></tr>
+          <tr><td class="muted">08</td><td>Dicionários</td><td class="muted">chave → valor</td><td><code>d["k"]  d.get()</code></td></tr>
+          <tr><td class="muted">09</td><td>Tuplas &amp; Sets</td><td class="muted">imutável / sem duplicatas</td><td><code>(x, y)  {a, b}</code></td></tr>
+          <tr><td class="muted">10</td><td>Erros</td><td class="muted">controlar falhas</td><td><code>try / except / finally</code></td></tr>
+          <tr><td class="muted">11</td><td>Módulos</td><td class="muted">código pronto para importar</td><td><code>import math / random</code></td></tr>
+          <tr><td class="muted">12</td><td>Funções avançadas</td><td class="muted">transformar coleções</td><td><code>zip  map  filter</code></td></tr>
+          <tr><td class="muted">13</td><td>Classes</td><td class="muted">molde, herança, __str__</td><td><code>class Pessoa:</code></td></tr>
+          <tr><td class="muted">14</td><td>Padrões úteis</td><td class="muted">clareza e modernidade</td><td><code>hints  docstrings  :=</code></td></tr>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <p id="no-results">Nenhum resultado encontrado.</p>
+
+</main>
+
+<footer>
+  python + lógica — cola &nbsp;·&nbsp; eduardo agnes holmer &nbsp;·&nbsp; v3
+</footer>
+
+<button id="back-to-top" aria-label="Voltar ao topo da página">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
