@@ -33,7 +33,7 @@ Zero dependências de build · Zero frameworks · Abre direto no navegador
 ## Como rodar localmente
 
 ```bash
-git clone https://github.com/seuusuario/python-logica-cheatsheet.git
+git clone https://github.com/eduardoaholmer/python-logica-cheatsheet.git
 cd python-logica-cheatsheet
 ```
 
@@ -52,7 +52,7 @@ Abra o arquivo `index.html` diretamente no navegador — não precisa de servido
    git add .
    git commit -m "Initial commit"
    git branch -M main
-   git remote add origin https://github.com/seuusuario/python-logica-cheatsheet.git
+   git remote add origin https://github.com/eduardoaholmer/python-logica-cheatsheet.git
    git push -u origin main
    ```
 3. No repositório, vá em **Settings → Pages**
@@ -99,7 +99,7 @@ python-logica-cheatsheet/
 
 ## Acesso
 
-🔗 https://seuusuario.github.io/python-logica-cheatsheet/
+🔗 https://eduardoaholmer.github.io/python-logica-cheatsheet/
 
 ---
 
