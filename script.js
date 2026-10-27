@@ -8,17 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavActiveState();
   initNavScrollIndicator();
   initThemeToggle();       // [11]
-  initSectionLegends();    // [6]
   initKeyboardShortcuts(); // [9]
   initSectionAnchors();    // [10]
 });
 
 // === HEADER HEIGHT ===
+// --header-height posiciona a sidebar sticky; --scroll-offset compensa tudo que
+// fica fixo no topo (no mobile a faixa de navegação também é sticky).
+const compactNavQuery = window.matchMedia('(max-width: 1023px)');
+
 function updateHeaderHeight() {
   const header = document.querySelector('header');
   if (!header) return;
-  const height = header.getBoundingClientRect().height;
-  document.documentElement.style.setProperty('--header-height', height + 8 + 'px');
+  const headerHeight = header.getBoundingClientRect().height;
+  const sidebar = document.querySelector('.sidebar');
+  const stripHeight = compactNavQuery.matches && sidebar ? sidebar.getBoundingClientRect().height : 0;
+
+  const root = document.documentElement.style;
+  root.setProperty('--header-height', headerHeight + 'px');
+  root.setProperty('--scroll-offset', headerHeight + stripHeight + 16 + 'px');
 }
 
 window.addEventListener('resize', updateHeaderHeight);
@@ -64,7 +72,7 @@ function initCopyButtons() {
     <polyline points="20 6 9 17 4 12"/>
   </svg>`;
 
-  document.querySelectorAll('pre').forEach(pre => {
+  document.querySelectorAll('main pre').forEach(pre => {
     // [4] Deriva label contextual a partir da .tag mais próxima dentro do card
     const card = pre.closest('.card');
     const tagText = card?.querySelector('.tag')?.textContent?.trim() ?? '';
@@ -98,7 +106,11 @@ function initCopyButtons() {
       }, 2000);
     });
 
-    pre.appendChild(btn);
+    // Botão fica no wrapper (não no <pre>) para não rolar junto com o código
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-block';
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.append(pre, btn);
   });
 }
 
@@ -111,8 +123,13 @@ function initSearch() {
   const sections = document.querySelectorAll('main section');
   if (!input) return;
 
-  // [9] Atualiza placeholder com dica de atalho
-  input.setAttribute('placeholder', 'Buscar... (/ para focar)');
+  // Texto pesquisável de cada card, sem o rótulo dos botões injetados ("Copiar")
+  const cardText = new Map();
+  document.querySelectorAll('main .card').forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.querySelectorAll('button').forEach(b => b.remove());
+    cardText.set(card, clone.textContent);
+  });
 
   let debounceTimer = null;
 
@@ -209,7 +226,7 @@ function initSearch() {
       let sectionVisible = 0;
 
       cards.forEach(card => {
-        if (testRegex.test(card.textContent)) {
+        if (testRegex.test(cardText.get(card) ?? card.textContent)) {
           card.classList.remove('hidden');
           sectionVisible++;
 
@@ -247,29 +264,65 @@ function initSearch() {
 
 // === NAV ACTIVE STATE ===
 function initNavActiveState() {
+  const nav = document.querySelector('nav');
   const navLinks = document.querySelectorAll('nav a[href^="#"]');
   const sections = document.querySelectorAll('main section[id]');
-  if (!sections.length) return;
+  if (!nav || !sections.length) return;
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
-          });
-          // Scrolla o link ativo para visível na nav
-          const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-          if (activeLink) {
-            activeLink.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
-          }
-        }
-      });
-    },
-    { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
-  );
+  // Rola só o próprio nav (nunca a janela) para manter o link ativo visível
+  function revealInNav(link) {
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    if (compactNavQuery.matches) {
+      const delta = linkRect.left - navRect.left - (navRect.width - linkRect.width) / 2;
+      nav.scrollBy({ left: delta, behavior: 'smooth' });
+    } else {
+      const scroller = nav.closest('.sidebar');
+      if (!scroller) return;
+      const box = scroller.getBoundingClientRect();
+      if (linkRect.top < box.top || linkRect.bottom > box.bottom) {
+        scroller.scrollBy({ top: linkRect.top - box.top - box.height / 2, behavior: 'smooth' });
+      }
+    }
+  }
 
-  sections.forEach(s => observer.observe(s));
+  // Seção ativa = a última cujo topo já passou da área fixa do topo
+  // (header + faixa de nav no mobile). No fim da página, a última visível.
+  let currentId = null;
+
+  function updateActive() {
+    const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scroll-offset')) || 0;
+    const visible = [...sections].filter(s => !s.classList.contains('hidden'));
+    let current = null;
+
+    for (const section of visible) {
+      if (section.getBoundingClientRect().top - offset <= 24) current = section;
+      else break;
+    }
+
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    if (atBottom && visible.length) current = visible[visible.length - 1];
+
+    const id = current ? current.id : null;
+    if (id === currentId) return;
+    currentId = id;
+
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    const activeLink = id && nav.querySelector(`a[href="#${id}"]`);
+    if (activeLink) revealInNav(activeLink);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      updateActive();
+    });
+  }, { passive: true });
+  window.addEventListener('resize', updateActive);
+  updateActive();
 }
 
 // === NAV SCROLL INDICATOR ===
@@ -319,24 +372,6 @@ function initThemeToggle() {
     if (!localStorage.getItem(STORAGE_KEY)) {
       applyTheme(e.matches ? 'light' : 'dark');
     }
-  });
-}
-
-// === [6] LEGENDA COMPACTA POR SEÇÃO ===
-function initSectionLegends() {
-  document.querySelectorAll('main section').forEach(section => {
-    const h2 = section.querySelector('h2');
-    if (!h2) return;
-
-    const legend = document.createElement('div');
-    legend.className = 'section-legend';
-    legend.setAttribute('aria-hidden', 'true');
-    legend.innerHTML =
-      '<span class="sl-dot logic"></span><span>Lógica — conceito</span>' +
-      '<span class="sl-sep">·</span>' +
-      '<span class="sl-dot py"></span><span>Python — código</span>';
-
-    h2.insertAdjacentElement('afterend', legend);
   });
 }
 

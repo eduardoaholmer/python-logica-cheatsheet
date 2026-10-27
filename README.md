@@ -9,24 +9,22 @@ Cheat sheet interativo de Python e lógica de programação, escrito em portugu�
 ## Recursos
 
 - **15 seções** cobrindo variáveis, operadores, condicionais, loops, funções, strings, listas, dicionários, tuplas, sets, tratamento de erros, módulos, funções avançadas, classes e padrões úteis
-- **Syntax highlighting** com Prism.js, tema dark personalizado nas cores do projeto
-- **Busca em tempo real** — filtra cards por conceito, função ou trecho de código (debounce 150ms)
-- **Botão "Copiar código"** injetado em todos os blocos de código com feedback visual
-- **Barra de progresso de leitura** no topo da página
-- **Botão "Voltar ao topo"** com aparição suave após 300px de scroll
-- **Nav ativa por seção** — IntersectionObserver marca o link da seção visível
-- **Header height dinâmico** — scroll-margin-top calculado em runtime, funciona em mobile
-- **Scrollbars premium** minimalistas (6px globais, 4px em blocos de código)
-- **Layout responsivo** para mobile, tablet e desktop
-- **Acessibilidade** — skip link, aria-labels, role="search", foco visível em todos os interativos
+- **Lógica × Python lado a lado** — etiquetas roxas para o conceito, azuis para o código
+- **Sidebar de seções** numerada no desktop, que vira uma faixa horizontal rolável no mobile, com a seção atual destacada
+- **Syntax highlighting** com Prism.js, cores próprias do projeto nos dois temas
+- **Tema claro e escuro** — segue o sistema e lembra a escolha manual; no tema claro os acentos ficam mais escuros para manter o contraste
+- **Busca em tempo real** — filtra cards por conceito, função ou trecho de código, com destaque dos termos (atalho `/` ou `Ctrl+K`)
+- **Botão "Copiar código"** em todos os blocos, que fica no lugar mesmo quando o código rola na horizontal
+- **Link direto para cada seção** (ícone ao lado do título)
+- **Barra de progresso de leitura** e botão **voltar ao topo**
+- **Acessibilidade** — skip link, aria-labels, região `aria-live` na busca, foco visível e respeito a `prefers-reduced-motion`
 - **Suporte a impressão/PDF** com tema claro e quebras de página adequadas
-- Design dark premium com identidade visual consistente
 
 ---
 
 ## Tecnologias
 
-**HTML5** · **CSS3** · **JavaScript ES6+** · **Prism.js 1.29** · **Google Fonts** (Space Mono + Sora)
+**HTML5** · **CSS3** · **JavaScript ES6+** · **Prism.js 1.29** · **Google Fonts** (Sora para texto, JetBrains Mono para código, Space Mono para a marca)
 
 Zero dependências de build · Zero frameworks · Abre direto no navegador
 
@@ -71,6 +69,7 @@ python-logica-cheatsheet/
 ├── index.html      # Estrutura HTML semântica (sem CSS/JS inline)
 ├── style.css       # Todos os estilos, organizados por blocos comentados
 ├── script.js       # Funcionalidades: busca, copiar, progresso, nav ativa
+├── assets/         # Imagem de preview do README
 └── README.md       # Este arquivo
 ```
 

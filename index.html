@@ -9,8 +9,7 @@
   <title>Python + Lógica — Cola</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,12 +19,13 @@
 <!-- [3] Região aria-live para anunciar resultados de busca -->
 <div id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
-<header>
-  <h1>
-    <span class="py">Python</span><span class="sep"> + </span><span class="logic">Lógica</span>&nbsp;—&nbsp;Cola
+<header class="topbar">
+  <h1 class="brand">
+    <span class="py">Python</span><span class="sep">+</span><span class="logic">Lógica</span><span class="brand-suffix">&nbsp;— Cola</span>
   </h1>
 
   <div class="search-wrapper" role="search">
+    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input
       type="search"
       id="search-input"
@@ -34,6 +34,7 @@
       autocomplete="off"
       spellcheck="false"
     >
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
     <button class="search-clear" aria-label="Limpar busca">&#10005;</button>
   </div>
 
@@ -42,33 +43,42 @@
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
   </button>
-
-  <div class="nav-wrapper">
-    <nav aria-label="Navegação por seções">
-      <a href="#variaveis">Variáveis</a>
-      <a href="#operadores">Operadores</a>
-      <a href="#condicionais">Condicionais</a>
-      <a href="#loops">Loops</a>
-      <a href="#funcoes">Funções</a>
-      <a href="#strings">Strings</a>
-      <a href="#listas">Listas</a>
-      <a href="#dicts">Dicts</a>
-      <a href="#tuplas">Tuplas &amp; Sets</a>
-      <a href="#erros">Erros</a>
-      <a href="#modulos">Módulos</a>
-      <a href="#funcoes-avancadas">Funções+</a>
-      <a href="#classes">Classes</a>
-      <a href="#padroes">Padrões</a>
-      <a href="#resumo">Resumo</a>
-    </nav>
-  </div>
 </header>
+
+<div class="layout">
+
+  <aside class="sidebar nav-wrapper">
+    <p class="sidebar-title">Seções</p>
+    <nav aria-label="Navegação por seções">
+      <a href="#variaveis"><span class="nav-num">01</span>Variáveis</a>
+      <a href="#operadores"><span class="nav-num">02</span>Operadores</a>
+      <a href="#condicionais"><span class="nav-num">03</span>Condicionais</a>
+      <a href="#loops"><span class="nav-num">04</span>Loops</a>
+      <a href="#funcoes"><span class="nav-num">05</span>Funções</a>
+      <a href="#strings"><span class="nav-num">06</span>Strings</a>
+      <a href="#listas"><span class="nav-num">07</span>Listas</a>
+      <a href="#dicts"><span class="nav-num">08</span>Dicts</a>
+      <a href="#tuplas"><span class="nav-num">09</span>Tuplas &amp; Sets</a>
+      <a href="#erros"><span class="nav-num">10</span>Erros</a>
+      <a href="#modulos"><span class="nav-num">11</span>Módulos</a>
+      <a href="#funcoes-avancadas"><span class="nav-num">12</span>Funções+</a>
+      <a href="#classes"><span class="nav-num">13</span>Classes</a>
+      <a href="#padroes"><span class="nav-num">14</span>Padrões</a>
+      <a href="#resumo"><span class="nav-num">15</span>Resumo</a>
+    </nav>
+  </aside>
 
 <main id="main-content">
 
-  <div class="legend">
-    <div class="legend-item"><div class="dot logic"></div><strong>Lógica</strong> — o conceito por trás</div>
-    <div class="legend-item"><div class="dot py"></div><strong>Python</strong> — como escrever</div>
+  <div class="hero">
+    <p class="hero-eyebrow">cheat sheet · do zero ao POO</p>
+    <p class="hero-title">O <span class="logic">conceito</span> por trás e o <span class="py">código</span> pra escrever.</p>
+    <p class="hero-desc">Cada tópico mostra a ideia de lógica de programação lado a lado com o jeito Python de fazer — com exemplos prontos pra copiar.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="dot logic"></span><strong>Lógica</strong> — o conceito por trás</div>
+      <div class="legend-item"><span class="dot py"></span><strong>Python</strong> — como escrever</div>
+      <div class="legend-item legend-hint">aperte <kbd>/</kbd> para buscar</div>
+    </div>
   </div>
 
   <!-- ===================== VARIÁVEIS ===================== -->
@@ -95,7 +105,7 @@
             <pre><code class="language-python"># criar = dar nome + valor
 nome  = "Eduardo"       # str
 idade = 22              # int
-salto = 1.78            # float
+altura = 1.78           # float
 ativo = True            # bool
 frutas = ["maçã", "uva"]  # list</code></pre>
           </div>
@@ -1087,11 +1097,13 @@ while linha := arquivo.readline():
 
 </main>
 
+</div>
+
 <footer>
   <!-- [14] Link para repositório no rodapé -->
   python + lógica — cola &nbsp;·&nbsp; eduardo agnes holmer &nbsp;·&nbsp;
   <a href="https://github.com/eduardoaholmer/python-logica-cheatsheet" target="_blank" rel="noopener noreferrer">github</a>
-  &nbsp;·&nbsp; v3
+  &nbsp;·&nbsp; v4
 </footer>
 
 <button id="back-to-top" aria-label="Voltar ao topo da página">
